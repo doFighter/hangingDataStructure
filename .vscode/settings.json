@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "ostream": "cpp"
+    },
+    "terminal.integrated.fontFamily": "Lucida Console",
+    "terminal.integrated.shellArgs.windows": [
+        "/K chcp 65001 >nul"
+    ],
+    "editor.fontSize": 18,
+}
