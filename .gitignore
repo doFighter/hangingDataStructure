@@ -1,6 +1,6 @@
 ##ignore this file##
 /target/
-
+.vscode
 .classpath
 .project
 .settings     
