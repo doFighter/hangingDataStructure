@@ -150,7 +150,7 @@ void amendLink(link *head, ElemType newElem, int site)
  */
 void displayLink(link *L)
 {
-    link *temp = L;
+    link *temp;
     temp = L->next;
     while (temp)
     {

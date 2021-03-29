@@ -1,30 +1,63 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
 
 typedef int ElemType;
+using namespace std;
 
-/**
- *  链表节点的结构体
- * 
- *  - ElemType elem 数据域
- *  - struct Link *next 指针域，指向直接后继的节点
- *  - struct Link *prior 指针域，指向直接前驱的节点
- */
-typedef struct Link
+class DoubleLinkList
 {
-    ElemType elem;
-    struct Link *prior;
-    struct Link *next;
-} link;
+private:
+    /**
+     *  链表节点的结构体
+     * 
+     *  - ElemType elem 数据域
+     *  - struct Link *next 指针域，指向直接后继的节点
+     *  - struct Link *prior 指针域，指向直接前驱的节点
+     */
+    typedef struct Link
+    {
+        ElemType elem;
+        struct Link *prior;
+        struct Link *next;
+    } link, *DbLinkList;
+
+private:
+    DbLinkList dbLinkList;
+    DbLinkList initLinkNode(ElemType elem);
+    DbLinkList initLink(ElemType data[], int length);
+
+public:
+    DoubleLinkList();
+    ~DoubleLinkList();
+    DoubleLinkList(ElemType data[], int length);
+    void insertLink(ElemType elem, int site);
+    void insertArrayToLink(ElemType data[], int length, int site);
+    void deleteLink(int site);
+    int selectLink(ElemType elem);
+    void amendLink(ElemType newElem, int site);
+    void displayLink();
+};
+
+DoubleLinkList::DoubleLinkList()
+{
+    dbLinkList = initLinkNode(0);
+}
+
+DoubleLinkList::DoubleLinkList(ElemType data[], int length)
+{
+    dbLinkList = initLink(data, length);
+}
+
+DoubleLinkList::~DoubleLinkList()
+{
+}
 
 /**
  *  初始化链表节点
- *  - link *    返回创建的节点的地址
  *  - ElemType elem 传入该节点所需要存放的值
  */
-link *initLinkNode(ElemType elem)
+DoubleLinkList::DbLinkList DoubleLinkList::initLinkNode(ElemType elem)
 {
-    link *node = (link *)malloc(sizeof(link));
+    DbLinkList node = (link *)malloc(sizeof(link));
     node->elem = elem;
     node->next = NULL;
     node->prior = NULL;
@@ -37,9 +70,9 @@ link *initLinkNode(ElemType elem)
  *  - ElemType data[]  初始化数据所存储的数组
  *  - int length    数据量
  */
-link *initLink(ElemType data[], int length)
+DoubleLinkList::DbLinkList DoubleLinkList::initLink(ElemType data[], int length)
 {
-    link *start, *end;
+    DbLinkList start, end;
     start = initLinkNode(0); // 创建带有空头结点的双链表
     end = start;
     for (int i = 0; i < length; i++)
@@ -54,20 +87,19 @@ link *initLink(ElemType data[], int length)
 
 /**
  *  插入函数
- *  - link *L   要插入的链表
  *  - ElemType elem 要插入的元素
  *  - int site  要插入的位置
  *  注意：链表带有一个空的头指针
  */
-void insertLink(link *head, ElemType elem, int site)
+void DoubleLinkList::insertLink(ElemType elem, int site)
 {
     link *temp;
-    temp = head;
+    temp = dbLinkList;
     for (int i = 0; i < site - 1; i++)
     {
         if (temp == NULL)
         {
-            printf("插入位置错误，请重新插入！\n");
+            cout << "插入位置错误，请重新插入！" << endl;
             return;
         }
         temp = temp->next;
@@ -89,21 +121,20 @@ void insertLink(link *head, ElemType elem, int site)
 
 /**
  *  插入函数:这个函数是为了方便一下插入大量数据，所以可以接受数组插入
- *  - link *L   要插入的链表
  *  - ElemType data[] 要插入元素组成的数组
  *  - int length    数组的长度
  *  - int site  要插入的位置
  *  注意：链表带有一个空的头指针
  */
-void insertArrayToLink(link *head, ElemType data[], int length, int site)
+void DoubleLinkList::insertArrayToLink(ElemType data[], int length, int site)
 {
     link *temp;
-    temp = head;
+    temp = dbLinkList;
     for (int i = 0; i < site - 1; i++)
     {
         if (temp == NULL)
         {
-            printf("插入位置错误，请重新插入！\n");
+            cout << "插入位置错误，请重新插入！" << endl;
             return;
         }
         temp = temp->next;
@@ -134,19 +165,18 @@ void insertArrayToLink(link *head, ElemType data[], int length, int site)
 
 /**
  *  删除函数
- *  - link *L   要操作的链表
  *  - int site  要删除的位置
  *  注意：链表带有一个空的头指针
  */
-void deleteLink(link *head, int site)
+void DoubleLinkList::deleteLink(int site)
 {
     link *temp, *del;
-    temp = head;
+    temp = dbLinkList;
     for (int i = 0; i < site - 1; i++)
     {
         if (temp == NULL)
         {
-            printf("删除位置错误，请重新输入！\n");
+            cout << "删除位置错误，请重新输入！" << endl;
             return;
         }
         temp = temp->next;
@@ -161,25 +191,24 @@ void deleteLink(link *head, int site)
         temp->next = temp->next->next;
         temp->next->prior = temp;
     }
-    free(del);
+    delete del;
 }
 
 /**
  *  查询函数
- *  - link *L   要操作的链表
  *  - ElemType elem 要查询的元素
  *  注意：链表带有一个空的头指针
  */
-int selectLink(link *head, ElemType elem)
+int DoubleLinkList::selectLink(ElemType elem)
 {
     link *temp;
     int i = 1;
-    temp = head->next;
+    temp = dbLinkList->next;
     while (temp)
     {
         if (temp->elem == elem)
         {
-            printf("%d 元素的位置为 %d,他的是直接前驱元素为：%d,位置为 %d\n", elem, i, temp->prior->elem, i - 1);
+            cout << elem << " 元素的位置为 " << i << ",他的是直接前驱元素为：" << temp->prior->elem << ",位置为 " << i - 1 << endl;
             return i;
         }
         temp = temp->next;
@@ -190,20 +219,19 @@ int selectLink(link *head, ElemType elem)
 
 /**
  *  修改函数
- *  - link *L   要操作的链表
  *  - ElemType elem 要修改的目标值
  *  - int site  要修改的位置
  *  注意：链表带有一个空的头指针
  */
-void amendLink(link *head, ElemType newElem, int site)
+void DoubleLinkList::amendLink(ElemType newElem, int site)
 {
     link *temp;
-    temp = head;
+    temp = dbLinkList;
     for (int i = 0; i < site; i++)
     {
         if (temp == NULL)
         {
-            printf("输入的修改位置错误，请重新输入！\n");
+            cout << "输入的修改位置错误，请重新输入！" << endl;
             return;
         }
         temp = temp->next;
@@ -214,38 +242,36 @@ void amendLink(link *head, ElemType newElem, int site)
 /**
  *  输出函数：输出链表内的值
  * 
- *  - link *L  传入链表头节点
  */
-void displayLink(link *L)
+void DoubleLinkList::displayLink()
 {
     link *temp;
-    temp = L->next;
+    temp = dbLinkList->next;
     while (temp)
     {
-        printf("%d  ", temp->elem);
+        cout << temp->elem << " ";
         temp = temp->next;
     }
-    printf("\n");
+    cout << endl;
 }
 
 int main()
 {
-    link *head;
-    head = initLinkNode(0);
+    DoubleLinkList DbLinkList;
     int data[] = {11, 22, 33, 44, 55, 66, 77};
     int length = 7;
-    head = initLink(data, length);
-    displayLink(head);
-    insertLink(head, 100, 4);
-    displayLink(head);
-    deleteLink(head, 3);
-    displayLink(head);
+    DbLinkList.insertArrayToLink(data, length, 1);
+    DbLinkList.displayLink();
+    DbLinkList.insertLink(100, 4);
+    DbLinkList.displayLink();
+    DbLinkList.deleteLink(3);
+    DbLinkList.displayLink();
     int data2[] = {10, 20, 30};
-    insertArrayToLink(head, data2, 3, 8);
-    displayLink(head);
-    amendLink(head, 101, 3);
-    displayLink(head);
-    int i = selectLink(head, 101);
+    DbLinkList.insertArrayToLink(data2, 3, 8);
+    DbLinkList.displayLink();
+    DbLinkList.amendLink(101, 3);
+    DbLinkList.displayLink();
+    int i = DbLinkList.selectLink(101);
     if (i < 0)
     {
         printf("未找到元素\n");

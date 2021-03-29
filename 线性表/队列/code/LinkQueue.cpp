@@ -14,12 +14,12 @@ private:
 
 private:
     linkQueue queue;
+    linkQueue initQueueNode(ElemType elem);
 
 public:
     ~LinkQueue();
     LinkQueue();
     LinkQueue(ElemType ele);
-    linkQueue initQueueNode(ElemType elem);
     void pushLinkQueue(ElemType elem);
     ElemType popLinkQueue();
     int linkQueueSize();
@@ -50,7 +50,6 @@ LinkQueue::linkQueue LinkQueue::initQueueNode(ElemType elem)
 
 /**
  * 入队函数 无返回值
- * linkQueue queue  入对的队列
  * ElemType elem  入队的元素
  */
 void LinkQueue::pushLinkQueue(ElemType elem)
@@ -74,7 +73,6 @@ void LinkQueue::pushLinkQueue(ElemType elem)
 
 /**
  * 出队函数 返回值为存储的元素类型
- * linkQueue queue 执行出队操作的队列
  */
 ElemType LinkQueue::popLinkQueue()
 {
@@ -93,7 +91,6 @@ ElemType LinkQueue::popLinkQueue()
 
 /**
  * 队列元素数量函数 返回队列存储元素的个数
- * linkQueue queue 查询的队列
  */
 int LinkQueue::linkQueueSize()
 {

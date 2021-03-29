@@ -24,11 +24,11 @@ private:
 
 private:
     Queue list_queue;
+    queue initListQueue();
 
 public:
     ListQueue();
     ~ListQueue();
-    queue initListQueue();
     void pushListQueue(ElemType elem);
     ElemType popListQueue();
     int listQueueSize();
@@ -57,7 +57,6 @@ ListQueue::queue ListQueue::initListQueue()
 
 /**
  * 入队操作  无返回值
- * listQueue queue 传入要操作的队列
  * ElemType elem 要传入的元素
  */
 void ListQueue::pushListQueue(ElemType elem)
@@ -78,7 +77,6 @@ void ListQueue::pushListQueue(ElemType elem)
 
 /**
  * 出队操作  函数返回出对元素
- * listQueue queue 要操作的队列
  */
 ElemType ListQueue::popListQueue()
 {
@@ -98,7 +96,6 @@ ElemType ListQueue::popListQueue()
 
 /**
  * 计算队列元素个数函数 返回函数个数
- * listQueue queue
  */
 int ListQueue::listQueueSize()
 {
