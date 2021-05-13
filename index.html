@@ -43,24 +43,6 @@
         paths: 'auto',
         depth: 6
       },
-      plugins: [
-        function(hook, vm) {
-          hook.beforeEach(function(content) {
-            // 每次开始解析 Markdown 内容时调用
-            // 将所有../img替换成img
-            // https://github.com/docsifyjs/docsify/issues/936
-            return content.replace(/..\/img/g, "img");
-          })
-
-          hook.doneEach(function () {
-            window.MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('app')]);
-          })
-        }
-      ],
-      externalLinkTarget: '_target',
-      name: '快乐学习数据结构',
-      repo: 'https://github.com/doFighter/hangingDataStructure'
-    }
   </script>
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -75,7 +57,7 @@
       "HTML-CSS": { fonts: ["TeX"] }
     });
   </script>
-<!--   <script src="docsify.js"></script> -->
+  <script src="docsify.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/zoom-image.js"></script>
   <script src="//unpkg.com/docsify-copy-code"></script>
   <script src="//unpkg.com/prismjs/components/prism-bash.js"></script>
